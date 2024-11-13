@@ -1,7 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+
+
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
 
@@ -34,10 +36,22 @@ class _QuizPageState extends State<QuizPage> {
     String correctAnswer = questions[currentQuestionIndex]['correct_answer'];
     if (selectedAnswer == correctAnswer) {
       // Correct answer logic
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Correct!')));
+      Fluttertoast.showToast(
+        msg: 'Correct',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER_RIGHT,
+        backgroundColor: Colors.green, // Set to green for correct answers
+        textColor: Colors.white,
+      );
     } else {
       // Incorrect answer logic
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Incorrect!')));
+      Fluttertoast.showToast(
+        msg: 'Incorrect',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER_RIGHT,
+        backgroundColor: Colors.grey, // Set to red for incorrect answers
+        textColor: Colors.red,
+      );
     }
     setState(() {
       currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
@@ -58,40 +72,56 @@ class _QuizPageState extends State<QuizPage> {
     answers.shuffle();
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.purple,
-          title: const Text('Quiz') ,centerTitle: true,
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
+        title: const Text('Quiz'),
+        centerTitle: true,
       ),
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                Image.asset('./images/freepik__candid-image-photography-natural-textures-highly-r__87836.jpeg'),
-              ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              './images/im1.jpg',
+              fit: BoxFit.cover,
             ),
-            Positioned(
-              child: Container(
-              alignment: Alignment.lerp(Alignment.center, Alignment.topCenter, 0.5),
-                child:  Text(
-                  questions.isNotEmpty ? questions[currentQuestionIndex]['question'] : 'Loading...',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.white,
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    questions.isNotEmpty ? questions[currentQuestionIndex]['question'] : 'Loading...',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Wrap(
+                    spacing: 8.0, // Horizontal space between buttons
+                    runSpacing: 8.0, // Vertical space between rows
+                    alignment: WrapAlignment.center,
+                    children: answers.map((answer) =>
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2 - 16, // Adjust width of each button
+                          child: ElevatedButton(
+                            onPressed: () => checkAnswer(answer),
+                            child: Text(answer),
+                          ),
+                        ),
+                    ).toList(),
+                  ),
+                ),
+              ],
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: answers.map((answer) => ElevatedButton(
-                  onPressed: () => checkAnswer(answer),
-                  child: Text(answer),
-                )).toList(),
-              ),
-            ),
-          ],
-        )
+          ),
+        ],
+      ),
     );
   }
 }

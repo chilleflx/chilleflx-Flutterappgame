@@ -31,7 +31,6 @@ class _QuizPageState extends State<QuizPage> {
       throw Exception('Failed to load questions');
     }
   }
-
   void checkAnswer(String selectedAnswer) {
     String correctAnswer = questions[currentQuestionIndex]['correct_answer'];
     if (selectedAnswer == correctAnswer) {
@@ -49,8 +48,8 @@ class _QuizPageState extends State<QuizPage> {
         msg: 'Incorrect',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER_RIGHT,
-        backgroundColor: Colors.grey, // Set to red for incorrect answers
-        textColor: Colors.red,
+        backgroundColor: Colors.red, // Set to red for incorrect answers
+        textColor: Colors.white,
       );
     }
     setState(() {
@@ -85,6 +84,25 @@ class _QuizPageState extends State<QuizPage> {
               fit: BoxFit.cover,
             ),
           ),
+
+            Center(
+              child: Text(
+            'Question ${currentQuestionIndex + 1} of ${questions.length}',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+          ),
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+              ),
+            ),
+          ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

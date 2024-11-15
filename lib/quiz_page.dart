@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -14,6 +14,7 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<dynamic> questions = [];
   int currentQuestionIndex = 0;
+  int correctAnswersCount = 0;
 
   @override
   void initState() {
@@ -22,7 +23,8 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> fetchQuestions() async {
-    final response = await http.get(Uri.parse('https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple'));
+    final response = await http.get(Uri.parse(
+        'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple'));
     if (response.statusCode == 200) {
       setState(() {
         questions = json.decode(response.body)['results'];
@@ -39,23 +41,88 @@ class _QuizPageState extends State<QuizPage> {
         msg: 'Correct',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER_RIGHT,
-        backgroundColor: Colors.green, // Set to green for correct answers
+        backgroundColor: Colors.green,
         textColor: Colors.white,
       );
+      correctAnswersCount++;
     } else {
       // Incorrect answer logic
       Fluttertoast.showToast(
         msg: 'Incorrect',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER_RIGHT,
-        backgroundColor: Colors.red, // Set to red for incorrect answers
+        backgroundColor: Colors.red,
         textColor: Colors.white,
       );
     }
     setState(() {
-      currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+      currentQuestionIndex++;
+      if (currentQuestionIndex >= questions.length) {
+        showResultDialog(correctAnswersCount, context);
+        currentQuestionIndex = 0;
+      }
     });
   }
+
+  void showResultDialog(int correctAnswersCount, BuildContext context) {
+    if (correctAnswersCount >= 5) {
+      // Success widget
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.success,
+        title: 'Quiz Result',
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Congratulations!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'You passed the quiz.',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+        btnOkOnPress: () {
+          Navigator.of(context).pop();
+        },
+      )..show();
+    } else {
+      // Failure widget
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.warning,
+        title: 'Quiz Result',
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Sorry!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'You failed the quiz.',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+        btnOkOnPress: () {
+          Navigator.of(context).pop();
+        },
+      )..show();
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,25 +151,41 @@ class _QuizPageState extends State<QuizPage> {
               fit: BoxFit.cover,
             ),
           ),
-
-            Center(
-              child: Text(
-            'Question ${currentQuestionIndex + 1} of ${questions.length}',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-          ),
           Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+            child: Text(
+              'Question ${currentQuestionIndex + 1} of ${questions.length}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.white,
               ),
             ),
           ),
-
+          Container(
+            alignment: Alignment.topCenter,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Correct Answers: ',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '$correctAnswersCount',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -110,7 +193,9 @@ class _QuizPageState extends State<QuizPage> {
                 Container(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    questions.isNotEmpty ? questions[currentQuestionIndex]['question'] : 'Loading...',
+                    questions.isNotEmpty
+                        ? questions[currentQuestionIndex]['question']
+                        : 'Loading...',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -124,15 +209,18 @@ class _QuizPageState extends State<QuizPage> {
                     spacing: 8.0, // Horizontal space between buttons
                     runSpacing: 8.0, // Vertical space between rows
                     alignment: WrapAlignment.center,
-                    children: answers.map((answer) =>
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2 - 16, // Adjust width of each button
-                          child: ElevatedButton(
-                            onPressed: () => checkAnswer(answer),
-                            child: Text(answer),
-                          ),
+                    children: answers
+                        .map(
+                          (answer) => SizedBox(
+                        width: MediaQuery.of(context).size.width / 2 -
+                            16, // Adjust width of each button
+                        child: ElevatedButton(
+                          onPressed: () => checkAnswer(answer),
+                          child: Text(answer),
                         ),
-                    ).toList(),
+                      ),
+                    )
+                        .toList(),
                   ),
                 ),
               ],

@@ -4,14 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+class QuizPage1 extends StatefulWidget {
+  const QuizPage1({Key? key}) : super(key: key);
 
   @override
   _QuizPageState createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<QuizPage1> {
   List<dynamic> questions = [];
   int currentQuestionIndex = 0;
   int correctAnswersCount = 0;
@@ -24,7 +24,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> fetchQuestions() async {
     final response = await http.get(Uri.parse(
-        'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple'));
+        'https://opentdb.com/api.php?amount=10&category=21&difficulty=medium&type=multiple'));
     if (response.statusCode == 200) {
       setState(() {
         questions = json.decode(response.body)['results'];
@@ -128,7 +128,7 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Computer science quiz ')),
+        appBar: AppBar(title: Text('Sport quiz')),
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -139,30 +139,25 @@ class _QuizPageState extends State<QuizPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: const Text('Computer science quiz'),
+        backgroundColor: Colors.yellow,
+        title: const Text('Sport quiz'),
         centerTitle: true,
       ),
+
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              './images/im1.jpg',
+              './images/sports_composition_512x512.png',
               fit: BoxFit.cover,
-            ),
-          ),
-          Center(
-            child: Text(
-              'Question ${currentQuestionIndex + 1} of ${questions.length}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.white,
-              ),
             ),
           ),
           Container(
             alignment: Alignment.topCenter,
+            decoration: BoxDecoration(
+              color: Colors.black54.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(6.0),
+            ),
             child: Text.rich(
               TextSpan(
                 children: [
@@ -190,6 +185,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
                 Container(
                   alignment: Alignment.topCenter,
                   decoration: BoxDecoration(
@@ -204,6 +200,17 @@ class _QuizPageState extends State<QuizPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Color(0xFF008080),
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Question ${currentQuestionIndex + 1} of ${questions.length}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
                     ),
                   ),
                 ),

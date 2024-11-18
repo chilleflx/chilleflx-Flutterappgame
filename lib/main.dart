@@ -39,15 +39,6 @@ class _RootPageState extends State<RootPage> {
           title: const Text('WISDOM GAME'),
         ),
         body: const HomePage(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.play_arrow),
-        ),
-        bottomNavigationBar: NavigationBar(
-          destinations: [
-            NavigationDestination(icon: Icon(Icons.home), label: 'home'),
-            NavigationDestination(icon: Icon(Icons.search), label: 'search'),
-          ],
-        ));
+       );
   }
 }

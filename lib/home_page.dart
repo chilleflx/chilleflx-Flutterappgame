@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.cyan,
       body: ListView(
         children: [
+          Positioned.fill(child: Image.asset('./images/6975312.jpg', fit: BoxFit.cover)),
           const SizedBox(height: 20),
           const Center(
             child: Text(

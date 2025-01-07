@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682411584478",
+    "project_id": "appgame-ccca4",
+    "storage_bucket": "appgame-ccca4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682411584478:android:7da9c24745d2011e968b4f",
+        "android_client_info": {
+          "package_name": "com.example.appgame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9Pux50UVE0tqmUYAlmDxGgle4iBGj8aE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

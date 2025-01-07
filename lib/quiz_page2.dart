@@ -97,7 +97,7 @@ class _QuizPageState extends State<QuizPage2> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Color(0xFF008080),
+                      color: Colors.black,
                     ),
                   ),
                 ),

@@ -33,7 +33,7 @@ class _QuizPageState extends State<QuizPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.black12,
         title: const Text('Computer science quiz'),
         centerTitle: true,
       ),
@@ -41,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              './images/im1.jpg',
+              './images/cp.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -97,7 +97,7 @@ class _QuizPageState extends State<QuizPage> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Color(0xFF008080),
+                      color: Colors.black,
                     ),
                   ),
                 ),

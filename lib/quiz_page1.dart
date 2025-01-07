@@ -36,7 +36,7 @@ class _QuizPageState extends State<QuizPage1> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.black12,
         title: const Text('Sport quiz'),
         centerTitle: true,
       ),
@@ -96,7 +96,7 @@ class _QuizPageState extends State<QuizPage1> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Color(0xFF008080),
+                      color: Colors.black,
                     ),
                   ),
                 ),

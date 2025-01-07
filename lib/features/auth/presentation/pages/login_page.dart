@@ -43,58 +43,62 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Sign In.',
-                style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 30),
-              AuthField(
-                hintText: 'Email',
-                controller: emailController,
-              ),
-              const SizedBox(height: 15),
-              AuthField(
-                hintText: 'Password',
-                controller: passwordController,
-                obsecureText: true,
-              ),
-              const SizedBox(height: 20),
-              AuthGradientButton(
-                buttonText: 'Sign In',
-                onPressed: () => login(context),
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(SignUpPage.route());
-                },
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Don\'t have an account? ',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    children: [
-                      TextSpan(
-                        text: 'Sign Up',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                          color: AppPallete.gradient2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Sign In.',
+                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
                   ),
-                ),
+                  const SizedBox(height: 30),
+                  AuthField(
+                    hintText: 'Email',
+                    controller: emailController,
+                  ),
+                  const SizedBox(height: 15),
+                  AuthField(
+                    hintText: 'Password',
+                    controller: passwordController,
+                    obsecureText: true,
+                  ),
+                  const SizedBox(height: 20),
+                  AuthGradientButton(
+                    buttonText: 'Sign In',
+                    onPressed: () => login(context),
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(SignUpPage.route());
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Don\'t have an account? ',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        children: [
+                          TextSpan(
+                            text: 'Sign Up',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                              color: AppPallete.gradient2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

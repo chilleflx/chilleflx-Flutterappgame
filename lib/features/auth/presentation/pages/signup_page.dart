@@ -44,8 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
           // After signing up, the user is automatically signed in.
           // Navigate to the RootPage directly.
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const RootPage(),
-          ));
+              MaterialPageRoute(builder: (context) => const RootPage(),
+              ));
         } catch (e) {
           showDialog(
             context: context,
@@ -69,99 +69,103 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Sign Up.',
-                style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 30),
-              AuthField(
-                hintText: 'Name',
-                controller: nameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              AuthField(
-                hintText: 'Email',
-                controller: emailController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              AuthField(
-                hintText: 'Password',
-                controller: passwordController,
-                obsecureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              AuthField(
-                hintText: 'Confirm Password',
-                controller: confirmPasswordController,
-                obsecureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please confirm your password';
-                  }
-                  if (value != passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              AuthGradientButton(
-                buttonText: 'Sign Up',
-                onPressed: () => register(context),
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(LoginPage.route());
-                },
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Already have an account? ',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    children: [
-                      TextSpan(
-                        text: 'Sign In',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppPallete.gradient2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Sign Up.',
+                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
                   ),
-                ),
+                  const SizedBox(height: 30),
+                  AuthField(
+                    hintText: 'Name',
+                    controller: nameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  AuthField(
+                    hintText: 'Email',
+                    controller: emailController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  AuthField(
+                    hintText: 'Password',
+                    controller: passwordController,
+                    obsecureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  AuthField(
+                    hintText: 'Confirm Password',
+                    controller: confirmPasswordController,
+                    obsecureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your password';
+                      }
+                      if (value != passwordController.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  AuthGradientButton(
+                    buttonText: 'Sign Up',
+                    onPressed: () => register(context),
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(LoginPage.route());
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Already have an account? ',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        children: [
+                          TextSpan(
+                            text: 'Sign In',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: AppPallete.gradient2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
